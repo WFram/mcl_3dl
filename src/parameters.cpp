@@ -51,7 +51,7 @@ bool Parameters::load(ros::NodeHandle& pnh)
   }
 
   pnh.param("map_frame", frame_ids_["map"], std::string("map"));
-  pnh.param("robot_frame", frame_ids_["base_link"], std::string("base_link"));
+  pnh.param("robot_frame", frame_ids_["base_link"], std::string("zed2_camera_frame"));
   pnh.param("odom_frame", frame_ids_["odom"], std::string("odom"));
   pnh.param("floor_frame", frame_ids_["floor"], std::string("floor"));
 

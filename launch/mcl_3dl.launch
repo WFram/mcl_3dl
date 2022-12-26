@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="without_odom" default="false" />
+  <arg name="without_imu" default="true" />
+  <arg name="use_neonavigation" default="false" />
+  <arg name="use_pointcloud_map" default="true" />
+  <arg name="use_cad_map" default="false" if="$(arg use_pointcloud_map)" />
+  <arg name="use_cad_map" default="true" unless="$(arg use_pointcloud_map)" />
+  <arg name="map_objs" unless="$(arg use_pointcloud_map)" />
+  <arg name="map_pcd" if="$(arg use_pointcloud_map)" />
+  <arg name="map_scale" default="1.0" />
+  <arg name="map_offset_x" default="0.0" />
+  <arg name="map_offset_y" default="0.0" />
+  <arg name="generate_test_bag" default="false" />
+  <arg name="use_bag_file" default="false" />
+  <arg name="bag_file" if="$(arg use_bag_file)" />
+
+  <arg name="config_file" default="$(find mcl_3dl)/config/mcl_3dl.yaml" />
+
+  <rosparam command="load" file="$(arg config_file)"/>
+
+  <!--
+  Required topics
+    /imu/data (IMU data with estimated pose)
+    /cloud    (Measured pointcloud)
+    /odom     (Wheel odometry)
+  -->
+
+<!--  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find mcl_3dl)/config/mcl_3dl_demo.rviz" />-->
+  <node pkg="mcl_3dl" type="mcl_3dl" name="mcl_3dl" output="screen" unless="$(arg generate_test_bag)">
+    <param name="compatible" value="1" />
+    <remap from="/imu/data" to="/zed2/zed_node/imu/data" />
+    <remap from="/cloud" to="/stereo_dso/local_point_cloud" />
+    <remap from="/mapcloud" to="/stereo_dso/loc_reference_point_cloud" />
+    <remap from="/odom" to="/stereo_dso/pose_hf" />
+  </node>
+</launch>

@@ -1,10 +1,18 @@
 mcl_3dl:
   map_frame: "map"
   accum_cloud: 2
+  fake_imu: true
   lpf_step: 1.0
-  dist_weight_z: 2.0
+  num_particles: 128
+  resample_var_yaw: 0.05
+  resample_var_pitch: 0.1
+  resample_var_roll: 0.1
+  acc_var: 1.2
+  dist_weight_x: 5.0
+  dist_weight_y: 5.0
+  dist_weight_z: 5.0
   likelihood:
-    match_dist_min: 0.5
+    match_dist_min: 0.2
     match_output_dist: 0.3
 obj_to_pointcloud:
   frame_id: "map"
